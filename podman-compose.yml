@@ -1,0 +1,9 @@
+services:
+  dockeratmega:
+    build: ./infinity
+    container_name: avrinfinity
+
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    volumes:
+      - "./firmware:/project/build"
