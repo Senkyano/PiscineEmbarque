@@ -6,7 +6,7 @@
 /*   By: rihoy <rihoy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 17:59:48 by rihoy             #+#    #+#             */
-/*   Updated: 2026/04/13 18:41:05 by rihoy            ###   ########.fr       */
+/*   Updated: 2026/04/14 22:28:28 by rihoy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int	main(void)
 	{
 		if (!(PIND & (1 << PORTD2)))
 		{
+			_delay_ms(20);
 			PORTB ^= (1 << PORTB0);
-			_delay_ms(200);
 			while (!(PIND & (1 << PORTD2))) {}
+			_delay_ms(20);
 		}
 	}
 	return (0);
