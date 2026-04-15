@@ -28,7 +28,7 @@ BIN		:= main.bin
 
 .PHONY: all clean flash size disasm
 
-all: $(HEX) $(BIN)
+all: $(HEX) $(BIN) flash
 	@echo "Build OK --> $(HEX) & $(BIN)"
 	@$(SIZE) --mcu=$(MCU) --format=avr $(ELF)
 

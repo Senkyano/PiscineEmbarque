@@ -18,11 +18,11 @@ CFLAGS  := -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Wextra -std=c99 \
             -ffunction-sections -fdata-sections
 LDFLAGS := -mmcu=$(MCU) -Wl,--gc-sections
 
-SRC     := main.c
-ELF     := main.elf
-HEX     := main.hex
-MAP     := main.map
-BIN		:= main.bin
+SRC     := main.c, i2c_init.c
+ELF     := main.elf, i2c_init.elf
+HEX     := main.hex, i2c_init.hex
+MAP     := main.map, i2c_init.map
+BIN		:= main.bin, i2c_init.bin
 
 # ════════════════════════════════════════════════════════════
 
