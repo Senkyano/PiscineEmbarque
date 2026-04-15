@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   i2c_protocole.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rihoy <rihoy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 17:59:48 by rihoy             #+#    #+#             */
-/*   Updated: 2026/04/13 18:15:45 by rihoy            ###   ########.fr       */
+/*   Created: 2026/04/15 16:21:12 by rihoy             #+#    #+#             */
+/*   Updated: 2026/04/15 18:12:13 by rihoy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <avr/io.h>
-#include <util/delay.h>
+#ifndef I2C_PROTOCOLE_H
+# define I2C_PROTOCOLE_H
 
-int	main(void)
+# include <avr/io.h>
+# include <util/delay.h>
+
+typedef struct i2c_struct_s
 {
-	DDRB = (1 << PORTB0);
-	DDRD &= ~(1 << PORTD2);
-	while (1)
-	{
-		if (!(PIND & (1 << PORTD2)))
-		{
-			PORTB |= (1 << PORTB0);
-		}
-		else
-		{
-			PORTB &= ~(1 << PORTB0);
-		}
-	}
-	return (0);
-}
+	volatile uint8_t	*port_sda;
+	volatile uint8_t	*port_scl;
+	volatile uint8_t	*ddr_sda;
+	volatile uint8_t	*ddr_scl;
+	volatile uint8_t	sda_pin;
+	volatile uint8_t	scl_pin;
+}	t_i2c_struct_t;
+
+void	i2c_start(t_i2c_struct_t info_i2c);
+
+
+#endif

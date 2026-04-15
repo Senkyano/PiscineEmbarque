@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   i2c_protocole.h                                    :+:      :+:    :+:   */
+/*   i2c_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rihoy <rihoy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/15 16:21:12 by rihoy             #+#    #+#             */
-/*   Updated: 2026/04/15 16:44:47 by rihoy            ###   ########.fr       */
+/*   Created: 2026/04/15 16:34:22 by rihoy             #+#    #+#             */
+/*   Updated: 2026/04/15 17:42:01 by rihoy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef I2C_PROTOCOLE_H
-# define I2C__PROTOCOLE_H
+#include "i2c_protocole.h"
 
-# include <avr/io.h>
-# include <util/delay.h>
-
-typedef struct i2c_struct_s {
-	volatile uint8_t	*port_sda;
-	volatile uint8_t	*port_scl;
-	volatile uint8_t	*ddr_sda;
-	volatile uint8_t	*ddr_scl;
-	volatile uint8_t	sda_pin;
-	volatile uint8_t	scl_pin;
-}	t_i2c_struct_t;
-
-void	i2c_start(i2c_struct_t info_i2c);
-
-#endif
+void	i2c_start(t_i2c_struct_t info)
+{
+	*info.ddr_sda &= ~(1 << info.sda_pin);
+	*info.ddr_scl &= ~(1 << info.scl_pin);
+	_delay_us(5);
+	*info.port_sda &= ~(1 << info.sda_pin);
+	*info.ddr_sda |= (1 << info.sda_pin);
+	_delay_us(5);
+	*info.port_scl &= ~(1 << info.scl_pin);
+	*info.ddr_scl |= (1 << info.scl_pin);
+	_delay_us(5);
+}

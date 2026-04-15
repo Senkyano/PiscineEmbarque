@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   i2c_init.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rihoy <rihoy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/15 16:34:22 by rihoy             #+#    #+#             */
-/*   Updated: 2026/04/15 16:48:41 by rihoy            ###   ########.fr       */
+/*   Created: 2026/04/13 17:46:18 by rihoy             #+#    #+#             */
+/*   Updated: 2026/04/15 19:46:25 by rihoy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "i2c_protocole.h"
+#include <avr/io.h>
+#include <util/delay.h>
 
-void	i2c_start(t_i2c_struct_t info)
+/*
+*	DDRx definition du pin en mode input ou output 1=output 0=input
+*	DDRB = 0xFF mettre tous les B en mode output
+*	PORTB |= (1 << PORTB0) on change le bit speficique a PB0 de des ports B
+*/
+
+int	main(void)
 {
-	*info.ddr_sda &= ~(1 << sda_pin);
-	*info.ddr_scl &= ~(1 << scl_pin);
-	_delay_us(5);
-	*info.port_sda &= ~(1 << sda_pin);
-	*info.ddr_sda |= (1 << sda_pin);
-	_delay_us(5);
-	*info.port_scl &= ~(1 << scl_pin);
-	*info.ddr_scl |= (1 << scl_pin);
-	_delay_us(5);
+	DDRB = 0xFF;
+	PORTB |= (1 << PORTB0);
+	return (0);
 }

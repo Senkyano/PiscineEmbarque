@@ -6,51 +6,36 @@
 /*   By: rihoy <rihoy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 13:17:49 by rihoy             #+#    #+#             */
-/*   Updated: 2026/04/15 16:52:28 by rihoy            ###   ########.fr       */
+/*   Updated: 2026/04/15 19:45:37 by rihoy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "i2c_protocole.h"
-
-void	main_while(uint8_t *compteur)
-{
-	while (1)
-	{
-		if (!(PIND & (1 << PORTD2)))
-		{
-			_delay_ms(20);
-			PORTB ^= (1 << PORTB0);
-			while (!(PIND & (1 << PORTD2)))
-				_delay_ms(20);
-		}
-		else if (!(PIND & (1 << PORTD4)))
-		{
-			_delay_ms(20);
-			PORTB ^= (1 << PORTB4);
-			while (!(PIND & (1 << PORTD4)))
-				_delay_ms(20);
-		}
-	}
-}
 
 int	main(void)
 {
 	uint8_t			compteur;
-	i2c_struct_t	info_i2c;
+	uint8_t 		pins[] = {PORTB0, PORTB1, PORTB2, PORTB4};
 
-	DDRB = (1 << PORTB0) | (1 << PORTB4);
-	DDRD &= ~(1 << PORTD2);
-	DDRD &= ~(1 << PORTD4);
-	info_i2c.port_sda = &PORTC;
-	info_i2c.port_scl = &PORTC;
-	info_i2c.ddr_sda = &DDRC;
-	info_i2c.ddr_scl = &DDRC;
-	info_i2c.sda_pin = PORTC4;
-	info_i2c.scl_pin = PORTC5;
+	DDRB = (1 << PORTB0) | (1 << PORTB1) | (1 << PORTB2) | (1 << PORTB4);
+	DDRD &= ~((1 << PORTD2) | (1 << PORTD4));
 	compteur = 0;
-	i2c_start(info_i2c);
-	main_while(&compteur);
+	while (1) {
+		_delay_ms(20);
+		if (!(PIND & (1 << PORTD2))) {
+			compteur++;
+			while (!(PIND & (1 << PORTD2))) {}
+		}
+		if (!(PIND & (1 << PORTD4))) {
+			compteur--;
+			while (!(PIND & (1 << PORTD4))) {}
+		}
+		_delay_ms(20);
+		if (compteur > 15)
+			compteur = 0;
+		for (uint8_t i = 0; i < 4; i++)
+			(compteur & (1 << i)) ? (PORTB |= (1 << pins[i])) : (PORTB &= ~(1 << pins[i]));
+	}
 	return (0);
 }
