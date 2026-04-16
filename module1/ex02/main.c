@@ -6,18 +6,33 @@
 /*   By: rihoy <rihoy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 20:14:51 by rihoy             #+#    #+#             */
-/*   Updated: 2026/04/16 03:10:09 by rihoy            ###   ########.fr       */
+/*   Updated: 2026/04/16 03:15:54 by rihoy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
+
+// 15.2.1 Registers
+// registre summary
+void timer_init() {
+    DDRB |= (1 << DDB1);
+
+    TCCR1A |= (1 << WGM11);
+    TCCR1B |= (1 << WGM13) | (1 << WGM12);
+
+    TCCR1A |= (1 << COM1A1);
+
+    ICR1 = 15624; // definition de la periode
+
+    OCR1A = 1562; // rapport cyclique
+
+    TCCR1B |= (1 << CS12) | (1 << CS10);
+}
 
 int	main(void) {
-	DDRB |= (1 << PORTB1);
-	volatile uint32_t i;
-	while (1) {
-		PORTB ^= (1 << PORTB1);
-		for (i = 0; i < 230000; i++) {}
-	}
+	DDRB |= (1 << DDB1);
+	timer_init();
+	while (1) {}
 	return (0);
 }
