@@ -15,7 +15,6 @@ OBJS       := $(addsuffix .o, $(FILES))
 
 ELF        := $(TARGET).elf
 HEX        := $(TARGET).hex
-BIN        := $(TARGET).bin
 MAP        := $(TARGET).map
 
 # Outils
@@ -45,8 +44,8 @@ LIB_STATIC	:=
 # ============================================================
 .PHONY: all clean flash
 
-all: $(HEX) $(BIN) flash
-	@echo "Build OK --> $(HEX) & $(BIN)"
+all: $(HEX) flash
+	@echo "Build OK --> $(HEX)"
 	@$(SIZE) --mcu=$(MCU) --format=avr $(ELF)
 
 # all: lib_build $(HEX) $(BIN) flash
@@ -68,9 +67,6 @@ $(ELF): $(OBJS)
 
 $(HEX): $(ELF)
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
-
-$(BIN): $(ELF)
-	$(OBJCOPY) -O binary -R .eeprom $< $@
 
 flash: $(HEX)
 	$(AVRDUDE) -c $(PROGRAMMER) -p $(MCU) -P $(PORT) -b $(BAUD) \
