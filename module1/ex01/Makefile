@@ -15,7 +15,6 @@ OBJS       := $(addsuffix .o, $(FILES))
 
 ELF        := $(TARGET).elf
 HEX        := $(TARGET).hex
-BIN        := $(TARGET).bin
 MAP        := $(TARGET).map
 
 # Outils
@@ -34,8 +33,8 @@ LDFLAGS    := -mmcu=$(MCU) -Wl,--gc-sections
 # ============================================================
 .PHONY: all clean flash size disasm
 
-all: $(HEX) $(BIN) flash
-	@echo "Build OK --> $(HEX) & $(BIN)"
+all: $(HEX) flash
+	@echo "Build OK --> $(HEX)"
 	@$(SIZE) --mcu=$(MCU) --format=avr $(ELF)
 
 %.o: %.c
@@ -46,9 +45,6 @@ $(ELF): $(OBJS)
 
 $(HEX): $(ELF)
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
-
-$(BIN): $(ELF)
-	$(OBJCOPY) -O binary -R .eeprom $< $@
 
 flash: $(HEX)
 	$(AVRDUDE) -c $(PROGRAMMER) -p $(MCU) -P $(PORT) -b $(BAUD) \
