@@ -6,7 +6,7 @@
 /*   By: rihoy <rihoy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 20:14:51 by rihoy             #+#    #+#             */
-/*   Updated: 2026/04/16 03:09:49 by rihoy            ###   ########.fr       */
+/*   Updated: 2026/04/16 17:29:21 by rihoy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 // registre summary
 void	timer_init(void)
 {
-	TCCR1B |= (1 << WGM12);
-	TCCR1A |= (1 << COM1A0);
-	OCR1A = 7812;
-	TCCR1B |= ((1 << CS12) | (1 << CS10));
+	TCCR1B |= (1 << WGM12); // Rules
+	TCCR1A |= (1 << COM1A0); // rules action sur COM1A0
+	OCR1A = 7812; // rapport cyclique
+	TCCR1B |= ((1 << CS12) | (1 << CS10)); // mask de reductions tics = 1024
 }
 
 int	main(void) {
